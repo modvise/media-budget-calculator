@@ -2,8 +2,8 @@ const { v4: uuidv4 } = require('uuid');
 const mongo = require('../database/index');
 
 const { getMondays } = require('./testInput/getAllMondays');
-const { possibleCompDates } = require('./testInput/getPossibleDates');
-const { getPossibleTouchPoints } = require('./testInput/getPossibleTouchPoints');
+const { possibleCompDates } = require('./getPossibleData/getPossibleDates');
+const { getPossibleTouchPoints } = require('./getPossibleData/getPossibleTouchPoints');
 const { getPossibleCompTypes } = require('./testInput/getPossibleCompTypes');
 const { getPossibleCompAttr } = require('./testInput/getPossibleCompAttr');
 
