@@ -1,11 +1,11 @@
 const { v4: uuidv4 } = require('uuid');
 const mongo = require('../database/index');
 
-const { getMondays } = require('./testInput/getAllMondays');
+const { getMondays } = require('./getPossibleData/getAllMondays');
 const { possibleCompDates } = require('./getPossibleData/getPossibleDates');
 const { getPossibleTouchPoints } = require('./getPossibleData/getPossibleTouchPoints');
-const { getPossibleCompTypes } = require('./testInput/getPossibleCompTypes');
-const { getPossibleCompAttr } = require('./testInput/getPossibleCompAttr');
+const { getPossibleCompTypes } = require('./getPossibleData/getPossibleCompTypes');
+const { getPossibleCompAttr } = require('./getPossibleData/getPossibleCompAttr');
 
 // import { getDivionsByRegion } from '../../services/campaign.service';
 
