@@ -1,0 +1,11 @@
+#custom
+src/calculateValue/*/*json
+
+# Dependency directories
+node_modules
+
+#env
+.env
+
+#config
+
