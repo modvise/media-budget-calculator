@@ -1,12 +1,10 @@
 const mongo = require('../database/index');
 const { getQueue } = require('../queue');
 
-// const inputDataArray = require('../calculateValue/testInput/input.json');
+const inputDataArray = require('../calculateValue/testInput/input.json');
 
 const START_FROM = 0; // * next START_FROM will be starting from END
-const END = 1000;
-
-// const inputData = inputDataArray.slice(START_FROM, END);
+const END = 5000;
 
 const DIVISION_NAME = 'cpd-hair-care-request';
 

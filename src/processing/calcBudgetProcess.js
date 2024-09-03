@@ -9,9 +9,11 @@ async function productCardProcess() {
   let counter = 0;
   const { waiting } = await calcDataQueue.getJobCounts();
 
-  calcDataQueue.process('*', 4, async (job, done) => {
+  calcDataQueue.process('*', 8, async (job, done) => {
     counter += 1;
-    console.log(`\n ${counter}/${waiting}`);
+    console.log('----------------------------------------------------------------');
+    console.log(`                ${counter}/${waiting}`);
+    console.log('----------------------------------------------------------------');
     try {
       const result = await calculateValue(job.data);
       const resultCollection = mongo.getCollection('result');

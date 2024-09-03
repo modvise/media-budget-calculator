@@ -994,13 +994,14 @@ const getEstimatedBudgetsTotal = async (regionIso, filters) => {
   const targetGroups = await getTargetGroups();
   const techCostsIndexes = await getTechCostIndexes();
   const touchpointsRates = await getAllTouchpointsRates(regionIso, filters);
-  const parametersCampaign = await getCampaignParameters(
-    regionIso,
-    config,
-    targetGroups,
-    budgets,
-    filters,
-  );
+  // * not needed
+  // const parametersCampaign = await getCampaignParameters(
+  //   regionIso,
+  //   config,
+  //   targetGroups,
+  //   budgets,
+  //   filters,
+  // );
 
   return {
     estimatedBudgets: getEstimatedBudgets(
@@ -1011,7 +1012,7 @@ const getEstimatedBudgetsTotal = async (regionIso, filters) => {
       techCostsIndexes,
       filters,
     ),
-    parametersCampaign,
+    // parametersCampaign,
   };
 };
 module.exports = {
