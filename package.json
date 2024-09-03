@@ -4,7 +4,11 @@
   "main": "index.js",
   "scripts": {
     "run:req": "node src/calculateValue/runGenerateRequests.js",
-    "run:calc": "node src/calculateValue/runCalculation.js"
+    "run:calc": "node src/calculateValue/runCalculation.js",
+    "clean": "node src/utils/cleanQueue.js",
+    "arena": "node src/arena.js",
+    "producer": "node src/producers/calcBudgetProducer.js" ,
+    "process": "node src/processing/calcBudgetProcess.js" 
   },
   "repository": {
     "type": "git",
@@ -14,10 +18,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bull": "^4.16.1",
+    "bull-arena": "^4.4.2",
     "dotenv": "^16.4.5",
     "lodash": "^4.17.21",
     "luxon": "^3.5.0",
     "mongodb": "^6.8.0",
+    "parse-database-url": "^0.3.0",
     "uuid": "^10.0.0"
   }
 }

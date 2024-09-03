@@ -11,6 +11,7 @@ const { getPossibleCompAttr } = require('./getPossibleData/getPossibleCompAttr')
 
 // TODO: save output to DB
 
+const DIVISION_NAME = 'cpd-hair-care-request';
 const REGION_ISO = 'PL';
 
 const generateRequests = async (run) => {
@@ -37,7 +38,11 @@ const generateRequests = async (run) => {
       touchpoints: ['youtube', 'meta', 'tiktok'],
     }));
     const resultRequest = mongo.getCollection('requests');
+
     await resultRequest.insertMany(result);
+    // --------- per division --------------------
+    const resultPerDivision = mongo.getCollection(DIVISION_NAME);
+    await resultPerDivision.insertMany(result);
     await mongo.closeConnection();
   }
 };

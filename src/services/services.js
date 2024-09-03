@@ -6,6 +6,110 @@ const DefaultParams = {
   DEFAULT_CAMPAIGN_DURATION: 6,
 };
 
+const emptyAdditionalData = {
+  budget: null,
+  impressions: null,
+  reach: null,
+  clicks: null,
+  videoViews: null,
+  techCost: null,
+};
+
+const calculateYTBudget = (
+  config,
+  targetGroups,
+  campaign,
+  touchpointsRates,
+  techCostsIndexes,
+  filters,
+) => {
+  const youtubeViewsShareBumper = filters.campaignBumper || 0.4;
+  const youtubeViewsShareSkipUnskip = (1 - youtubeViewsShareBumper) / 2;
+  const campaignTargetGroup = getCampaignTargetGroup(campaign, filters);
+  const targetGroup = findTargetGroupByTouchpoint(
+    campaign.touchpointName,
+    campaignTargetGroup,
+    targetGroups,
+    campaign.countryIso,
+  );
+  if (
+    !targetGroup ||
+    !targetGroup.targetSizeAdPanel ||
+    !targetGroup.targetGroupSizePopulation ||
+    !campaign.tgSaturationCalc
+  ) {
+    console.error('Missing required data');
+    return emptyAdditionalData;
+  }
+  const campaignTargetSize = getTargetGroupSize(config, targetGroup);
+  const campaignReach = campaign.tgSaturationCalc * campaignTargetSize;
+
+  const campaignFrequency = getCampaignFrequency(config, campaign, filters);
+  const campaignVideoViews = campaignReach * campaignFrequency;
+
+  const touchpointClickRate = getTouchpointClickRate(config, campaign);
+  const campaignClicks = campaignVideoViews * touchpointClickRate;
+
+  const campaignData = {
+    budget: null,
+    impressions: null,
+    reach: roundNumber(campaignReach, 10),
+    clicks: roundNumber(campaignClicks, 10),
+    videoViews: roundNumber(campaignVideoViews, 10),
+    techCost: null,
+  };
+
+  const campaignRateObj = findRateFromArr(campaign, touchpointsRates, filters);
+  if (campaignRateObj) {
+    const touchpointVideoRate = getTouchpointYTVideoRate(config, campaign);
+    const techCostIndex = getTechCostIndexFromArr(
+      techCostsIndexes,
+      campaign.touchpointName,
+      campaign.touchpointFunnel,
+    );
+
+    const touchpointVideoRateBumper = Number(touchpointVideoRate['vtr_youtube_bumper']);
+    const touchpointVideoRateSkip = Number(touchpointVideoRate['vtr_youtube_skip']);
+    const touchpointVideoRateUnskip = Number(touchpointVideoRate['vtr_youtube_unskip']);
+
+    const campaignRatePriceBumper =
+      Number(campaignRateObj.cpmRateYTBumper) / touchpointVideoRateBumper / 1000;
+    const campaignRatePriceSkip =
+      Number(campaignRateObj.cpmRateYTSkip) / touchpointVideoRateSkip / 1000;
+    const campaignRatePriceUnskip =
+      Number(campaignRateObj.cpmRateYTUnskip) / touchpointVideoRateUnskip / 1000;
+
+    const campaignRatePriceBumperFull = Number(campaignRateObj.cpmRateYTBumper) / 1000;
+    const campaignRatePriceSkipFull = Number(campaignRateObj.cpmRateYTSkip) / 1000;
+    const campaignRatePriceUnskipFull = Number(campaignRateObj.cpmRateYTUnskip) / 1000;
+
+    const campaignRateViewsShareBumperFull = youtubeViewsShareBumper / campaignRatePriceBumperFull;
+    const campaignRateViewsShareSkipFull = youtubeViewsShareSkipUnskip / campaignRatePriceSkipFull;
+    const campaignRateViewsShareUnskipFull =
+      youtubeViewsShareSkipUnskip / campaignRatePriceUnskipFull;
+    const campaignRateViewsShareFullSum =
+      campaignRateViewsShareBumperFull +
+      campaignRateViewsShareSkipFull +
+      campaignRateViewsShareUnskipFull;
+
+    const campaignRateViewsShareBumper = youtubeViewsShareBumper / campaignRatePriceBumper;
+    const campaignRateViewsShareSkip = youtubeViewsShareSkipUnskip / campaignRatePriceSkip;
+    const campaignRateViewsShareUnskip = youtubeViewsShareSkipUnskip / campaignRatePriceUnskip;
+    const campaignRateViewsShareSum =
+      campaignRateViewsShareBumper + campaignRateViewsShareSkip + campaignRateViewsShareUnskip;
+    const campaignBudget = campaignVideoViews / campaignRateViewsShareSum;
+    const campaignImpressions = campaignBudget * campaignRateViewsShareFullSum;
+    campaignData.budget = roundNumber(campaignBudget, 10);
+    campaignData.impressions = roundNumber(campaignImpressions, 10);
+    campaignData.techCost = roundNumber(
+      campaignBudget * (techCostIndex.techCostAdServer + techCostIndex.techCostDspFee),
+      10,
+    );
+  }
+
+  return campaignData;
+};
+
 const getTouchpointClickRate = (config, campaign) => {
   switch (campaign.touchpointName) {
     default:
