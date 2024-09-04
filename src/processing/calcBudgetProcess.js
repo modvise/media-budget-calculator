@@ -3,13 +3,15 @@ const mongo = require('../database/index');
 const config = require('../config/environment.config');
 const { calculateValue } = require('../calculateValue/runCalculation');
 
+const DIVISION_NAME = '5-7-result';
+
 const calcDataQueue = new Queue('CalcBudgetCalculation', { redis: config.REDIS_URL });
 async function productCardProcess() {
   await mongo.connectToDatabase();
   let counter = 0;
   const { waiting } = await calcDataQueue.getJobCounts();
 
-  calcDataQueue.process('*', 8, async (job, done) => {
+  calcDataQueue.process('*', 10, async (job, done) => {
     counter += 1;
     console.log('----------------------------------------------------------------');
     console.log(`                ${counter}/${waiting}`);
@@ -17,6 +19,12 @@ async function productCardProcess() {
     try {
       const result = await calculateValue(job.data);
       const resultCollection = mongo.getCollection('result');
+
+      // for current collection --------------------------------
+      const currentResultCollection = mongo.getCollection(DIVISION_NAME);
+      await currentResultCollection.insertMany(result);
+      // -------------------------------------------------------
+
       await resultCollection.insertMany(result);
       console.log(`Process number: ${process.pid}`);
       done();

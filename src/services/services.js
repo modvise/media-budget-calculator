@@ -15,6 +15,12 @@ const emptyAdditionalData = {
   techCost: null,
 };
 
+const getTouchpointYTVideoRate = (config, campaign) => ({
+  ['vtr_youtube_bumper']: config[`vtr_youtube_bumper_${campaign.countryIso}`],
+  ['vtr_youtube_skip']: config[`vtr_youtube_skip_${campaign.countryIso}`],
+  ['vtr_youtube_unskip']: config[`vtr_youtube_unskip_${campaign.countryIso}`],
+});
+
 const calculateYTBudget = (
   config,
   targetGroups,

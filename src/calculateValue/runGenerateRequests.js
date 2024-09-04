@@ -11,7 +11,7 @@ const { getPossibleCompAttr } = require('./getPossibleData/getPossibleCompAttr')
 
 // TODO: save output to DB
 
-const DIVISION_NAME = 'cpd-hair-care-request';
+const DIVISION_NAME = '5-7-request';
 const REGION_ISO = 'PL';
 
 const generateRequests = async (run) => {
@@ -19,13 +19,13 @@ const generateRequests = async (run) => {
     await mongo.connectToDatabase();
     // const divisions = await getDivisionsByRegion(REGION_ISO);
     const divisions = [
-      'CPD_HAIR CARE',
-      // 'CPD_HAIR COLOR',
-      // 'CPD_MAKE UP',
-      // 'CPD_SKIN CARE',
-      // 'LDB',
-      // 'LPD',
-      // 'PPD',
+      // 'CPD_HAIR CARE', // 1 // done
+      // 'CPD_HAIR COLOR', // 2 // done
+      // 'CPD_MAKE UP', // 3 // done
+      // 'CPD_SKIN CARE', // 4 // done
+      'LDB', // 5 // todo
+      'LPD', // 6 // todo
+      'PPD', // 7 // todo
     ];
     const possibleCompTypes = await getPossibleCompTypes(REGION_ISO, divisions);
     const possibleCompAttr = await getPossibleCompAttr(REGION_ISO, possibleCompTypes);
@@ -37,12 +37,14 @@ const generateRequests = async (run) => {
       ...variant,
       touchpoints: ['youtube', 'meta', 'tiktok'],
     }));
+    console.log('Length: ', result.length);
     const resultRequest = mongo.getCollection('requests');
-
     await resultRequest.insertMany(result);
+
     // --------- per division --------------------
     const resultPerDivision = mongo.getCollection(DIVISION_NAME);
     await resultPerDivision.insertMany(result);
+    // ---------------------------------------------
     await mongo.closeConnection();
   }
 };
