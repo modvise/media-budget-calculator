@@ -1,7 +1,7 @@
 const mongo = require('../database/index');
 const { getQueue } = require('../queue');
 
-const DIVISION_NAME = '5-7-request';
+const DIVISION_NAME = '7-request';
 
 const productCardProducer = async () => {
   await mongo.connectToDatabase();
@@ -13,7 +13,7 @@ const productCardProducer = async () => {
   let counter = 0;
   const translationPuppeteerQueue = getQueue('CalcBudgetCalculation');
 
-  inputDataArray.forEach((attrUrlObj, ind) => {
+  inputDataArray.forEach((attrUrlObj) => {
     const { _id, ...restOfData } = attrUrlObj;
     counter += 1;
     translationPuppeteerQueue.add(restOfData, { attempts: 2, backoff: 3000 });

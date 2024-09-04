@@ -11,7 +11,7 @@ const { getPossibleCompAttr } = require('./getPossibleData/getPossibleCompAttr')
 
 // TODO: save output to DB
 
-const DIVISION_NAME = '5-7-request';
+const DIVISION_NAME = '7-request';
 const REGION_ISO = 'PL';
 
 const generateRequests = async (run) => {
@@ -23,9 +23,9 @@ const generateRequests = async (run) => {
       // 'CPD_HAIR COLOR', // 2 // done
       // 'CPD_MAKE UP', // 3 // done
       // 'CPD_SKIN CARE', // 4 // done
-      'LDB', // 5 // todo
-      'LPD', // 6 // todo
-      'PPD', // 7 // todo
+      // 'LDB', // 5 // done
+      // 'LPD', // 6 // done
+      'PPD', // 7 // todo - in progress
     ];
     const possibleCompTypes = await getPossibleCompTypes(REGION_ISO, divisions);
     const possibleCompAttr = await getPossibleCompAttr(REGION_ISO, possibleCompTypes);

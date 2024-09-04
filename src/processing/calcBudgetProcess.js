@@ -3,7 +3,7 @@ const mongo = require('../database/index');
 const config = require('../config/environment.config');
 const { calculateValue } = require('../calculateValue/runCalculation');
 
-const DIVISION_NAME = '5-7-result';
+const DIVISION_NAME = '7-result';
 
 const calcDataQueue = new Queue('CalcBudgetCalculation', { redis: config.REDIS_URL });
 async function productCardProcess() {

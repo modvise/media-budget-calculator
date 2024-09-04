@@ -1,5 +1,6 @@
 #custom
 src/calculateValue/*/*json
+results
 
 # Dependency directories
 node_modules
