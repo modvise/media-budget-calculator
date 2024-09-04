@@ -3,7 +3,7 @@ const mongo = require('../database/index');
 const config = require('../config/environment.config');
 const { calculateValue } = require('../calculateValue/runCalculation');
 
-const DIVISION_NAME = '7-result';
+const DIVISION_NAME = '7-result'; // per division fort testing
 
 const calcDataQueue = new Queue('CalcBudgetCalculation', { redis: config.REDIS_URL });
 async function productCardProcess() {
@@ -21,8 +21,8 @@ async function productCardProcess() {
       const resultCollection = mongo.getCollection('result');
 
       // for current collection --------------------------------
-      const currentResultCollection = mongo.getCollection(DIVISION_NAME);
-      await currentResultCollection.insertMany(result);
+      // const currentResultCollection = mongo.getCollection(DIVISION_NAME); // per division fort testing
+      // await currentResultCollection.insertMany(result); // per division fort testing
       // -------------------------------------------------------
 
       await resultCollection.insertMany(result);

@@ -1,11 +1,11 @@
 const mongo = require('../database/index');
 const { getQueue } = require('../queue');
 
-const DIVISION_NAME = '7-request';
+const DIVISION_NAME = '7-request'; // per division fort testing
 
 const productCardProducer = async () => {
   await mongo.connectToDatabase();
-  const requestsCollection = mongo.getCollection(DIVISION_NAME);
+  const requestsCollection = mongo.getCollection('requests');
   const inputDataArray = await requestsCollection.find({}).toArray();
 
   console.log(`\n startScraperQueue:${process.pid}`);

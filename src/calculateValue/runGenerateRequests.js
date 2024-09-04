@@ -7,25 +7,22 @@ const { getPossibleTouchPoints } = require('./getPossibleData/getPossibleTouchPo
 const { getPossibleCompTypes } = require('./getPossibleData/getPossibleCompTypes');
 const { getPossibleCompAttr } = require('./getPossibleData/getPossibleCompAttr');
 
-// import { getDivionsByRegion } from '../../services/campaign.service';
-
 // TODO: save output to DB
 
-const DIVISION_NAME = '7-request';
+// const DIVISION_NAME = '7-request';  // per division fort testing
 const REGION_ISO = 'PL';
 
 const generateRequests = async (run) => {
   if (run) {
     await mongo.connectToDatabase();
-    // const divisions = await getDivisionsByRegion(REGION_ISO);
     const divisions = [
-      // 'CPD_HAIR CARE', // 1 // done
-      // 'CPD_HAIR COLOR', // 2 // done
-      // 'CPD_MAKE UP', // 3 // done
-      // 'CPD_SKIN CARE', // 4 // done
-      // 'LDB', // 5 // done
-      // 'LPD', // 6 // done
-      'PPD', // 7 // todo - in progress
+      'CPD_HAIR CARE', // 1 // done
+      'CPD_HAIR COLOR', // 2 // done
+      'CPD_MAKE UP', // 3 // done
+      'CPD_SKIN CARE', // 4 // done
+      'LDB', // 5 // done
+      'LPD', // 6 // done
+      'PPD', // 7 // done
     ];
     const possibleCompTypes = await getPossibleCompTypes(REGION_ISO, divisions);
     const possibleCompAttr = await getPossibleCompAttr(REGION_ISO, possibleCompTypes);
@@ -41,9 +38,9 @@ const generateRequests = async (run) => {
     const resultRequest = mongo.getCollection('requests');
     await resultRequest.insertMany(result);
 
-    // --------- per division --------------------
-    const resultPerDivision = mongo.getCollection(DIVISION_NAME);
-    await resultPerDivision.insertMany(result);
+    // ---------  per division fort testing --------------------
+    // const resultPerDivision = mongo.getCollection(DIVISION_NAME);
+    // await resultPerDivision.insertMany(result);
     // ---------------------------------------------
     await mongo.closeConnection();
   }
