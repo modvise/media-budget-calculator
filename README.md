@@ -31,8 +31,8 @@ git clone https://github.com/modvise/media-budget-calculator.git
 
 ```
 DB_CONN_STRING="mongodb://localhost:27017/"
-DB_NAME="lr-calc-data"
-DB_LOG_NAME="lr-log-data"
+DB_NAME=
+DB_LOG_NAME=
 REDIS_URL="redis://localhost:6379"
 REDIS_PORT=6379
 REDIS_HOST=127.0.0.1
