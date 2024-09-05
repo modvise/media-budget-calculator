@@ -1,30 +1,28 @@
 const { v4: uuidv4 } = require('uuid');
 const mongo = require('../database/index');
 
-const { getMondays } = require('./testInput/getAllMondays');
+const { getMondays } = require('./getPossibleData/getAllMondays');
 const { possibleCompDates } = require('./getPossibleData/getPossibleDates');
 const { getPossibleTouchPoints } = require('./getPossibleData/getPossibleTouchPoints');
-const { getPossibleCompTypes } = require('./testInput/getPossibleCompTypes');
-const { getPossibleCompAttr } = require('./testInput/getPossibleCompAttr');
-
-// import { getDivionsByRegion } from '../../services/campaign.service';
+const { getPossibleCompTypes } = require('./getPossibleData/getPossibleCompTypes');
+const { getPossibleCompAttr } = require('./getPossibleData/getPossibleCompAttr');
 
 // TODO: save output to DB
 
+// const DIVISION_NAME = '7-request';  // per division fort testing
 const REGION_ISO = 'PL';
 
 const generateRequests = async (run) => {
   if (run) {
     await mongo.connectToDatabase();
-    // const divisions = await getDivisionsByRegion(REGION_ISO);
     const divisions = [
-      'CPD_HAIR CARE',
-      // 'CPD_HAIR COLOR',
-      // 'CPD_MAKE UP',
-      // 'CPD_SKIN CARE',
-      // 'LDB',
-      // 'LPD',
-      // 'PPD',
+      'CPD_HAIR CARE', // 1 // done
+      'CPD_HAIR COLOR', // 2 // done
+      'CPD_MAKE UP', // 3 // done
+      'CPD_SKIN CARE', // 4 // done
+      'LDB', // 5 // done
+      'LPD', // 6 // done
+      'PPD', // 7 // done
     ];
     const possibleCompTypes = await getPossibleCompTypes(REGION_ISO, divisions);
     const possibleCompAttr = await getPossibleCompAttr(REGION_ISO, possibleCompTypes);
@@ -36,8 +34,14 @@ const generateRequests = async (run) => {
       ...variant,
       touchpoints: ['youtube', 'meta', 'tiktok'],
     }));
+    console.log('Length: ', result.length);
     const resultRequest = mongo.getCollection('requests');
     await resultRequest.insertMany(result);
+
+    // ---------  per division fort testing --------------------
+    // const resultPerDivision = mongo.getCollection(DIVISION_NAME);
+    // await resultPerDivision.insertMany(result);
+    // ---------------------------------------------
     await mongo.closeConnection();
   }
 };
