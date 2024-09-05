@@ -1,13 +1,7 @@
 const fs = require('fs');
 const mongo = require('../src/database/index');
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
-};
+const { formatDate } = require('../src/utils/formatDate');
 
 (async () => {
   await mongo.connectToDatabase();
@@ -25,9 +19,6 @@ const formatDate = (dateString) => {
       campaignEndDate: formattedEndDate,
     };
   });
-
-  console.log(result.length);
-  console.log(result[0]);
 
   fs.writeFileSync(`${__dirname}/results/full-requests.json`, JSON.stringify(result));
 
