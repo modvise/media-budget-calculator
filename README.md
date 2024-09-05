@@ -36,7 +36,6 @@ DB_LOG_NAME=
 REDIS_URL="redis://localhost:6379"
 REDIS_PORT=6379
 REDIS_HOST=127.0.0.1
-REDIS_PASSWORD=
 ```
 
 #### 5. You need to install MongoDB locally and migrate all data from the PROD version
