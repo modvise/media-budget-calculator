@@ -67,8 +67,20 @@ docker exec -it my-redis redis-cli
 npm run run:req
 ```
 
-#### 8. Launch calculation
+#### 8. Run arena (if you want)
 
 ```
-npm run run:calc
+npm run arena
+```
+
+#### 9. Add jobs to the queue
+
+```
+npm run producer
+```
+
+#### 10. Launch calculation
+
+```
+npm run process
 ```
