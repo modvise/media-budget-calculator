@@ -16,13 +16,13 @@ const generateRequests = async (run) => {
   if (run) {
     await mongo.connectToDatabase();
     const divisions = [
-      'CPD_HAIR CARE', // 1 // done
-      'CPD_HAIR COLOR', // 2 // done
-      'CPD_MAKE UP', // 3 // done
-      'CPD_SKIN CARE', // 4 // done
-      'LDB', // 5 // done
-      'LPD', // 6 // done
-      'PPD', // 7 // done
+      'CPD_HAIR CARE',
+      'CPD_HAIR COLOR',
+      'CPD_MAKE UP',
+      'CPD_SKIN CARE',
+      'LDB',
+      'LPD',
+      'PPD',
     ];
     const possibleCompTypes = await getPossibleCompTypes(REGION_ISO, divisions);
     const possibleCompAttr = await getPossibleCompAttr(REGION_ISO, possibleCompTypes);

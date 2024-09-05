@@ -2,8 +2,9 @@ const Queue = require('bull');
 const mongo = require('../database/index');
 const config = require('../config/environment.config');
 const { calculateValue } = require('../calculateValue/runCalculation');
+const config = require('../config/environment.config');
 
-const DIVISION_NAME = '7-result'; // per division fort testing
+// const DIVISION_NAME = '7-result'; // per division fort testing
 
 const calcDataQueue = new Queue('CalcBudgetCalculation', { redis: config.REDIS_URL });
 async function productCardProcess() {
@@ -11,7 +12,7 @@ async function productCardProcess() {
   let counter = 0;
   const { waiting } = await calcDataQueue.getJobCounts();
 
-  calcDataQueue.process('*', 10, async (job, done) => {
+  calcDataQueue.process('*', config.PROCESS_AMOUNT, async (job, done) => {
     counter += 1;
     console.log('----------------------------------------------------------------');
     console.log(`                ${counter}/${waiting}`);

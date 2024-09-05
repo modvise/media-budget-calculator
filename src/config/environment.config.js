@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const config = {
-  WORKERS: 1,
+  PROCESS_AMOUNT: 10,
   REDIS_URL: process.env.REDIS_URL,
   DB_CONN_STRING: process.env.DB_CONN_STRING,
   DB_NAME: process.env.DB_NAME,
